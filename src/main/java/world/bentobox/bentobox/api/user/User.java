@@ -10,6 +10,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import me.dreamerzero.miniplaceholders.api.MiniPlaceholders;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -475,7 +479,17 @@ public class User implements MetaDataAble {
      */
     public void sendRawMessage(String message) {
         if (sender != null) {
-            sender.sendMessage(message);
+            if(sender instanceof Audience audience && !message.contains("\u00A7")) {
+                TagResolver placeholders = TagResolver.empty();
+                if (Bukkit.getPluginManager().isPluginEnabled("MiniPlaceholders")) {
+                    placeholders = this.isPlayer()
+                        ? MiniPlaceholders.getAudienceGlobalPlaceholders((Audience) this.getPlayer())
+                        : MiniPlaceholders.getGlobalPlaceholders();
+                }
+                audience.sendMessage(MiniMessage.miniMessage().deserialize(message, placeholders));
+            } else {
+                sender.sendMessage(message);
+            }
         } else {
             // Offline player fire event
             Bukkit.getPluginManager().callEvent(new OfflineMessageEvent(this.playerUUID, message));

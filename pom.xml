@@ -248,6 +248,12 @@
             <version>${placeholderapi.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.4drian3d</groupId>
+            <artifactId>MiniPlaceholders</artifactId>
+            <version>1.1.1</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- Hooks -->
         <dependency>
             <groupId>us.dynmap</groupId>
@@ -266,6 +272,7 @@
             <artifactId>gson-record-type-adapter-factory</artifactId>
             <version>0.1.0</version>
         </dependency>
+
         <!-- Static analysis -->
         <!-- We are using Eclipse's annotations. If you're using IDEA, update 
             your project settings to take these into account for in real time static 
